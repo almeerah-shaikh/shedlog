@@ -1,0 +1,30 @@
+Replace Thread/Rethread
+Replace Needle
+Load New Bobbin
+Reduce Tension Setting
+Increase Tension Setting
+Clean Needle/Rethread
+Clear Shuttle Jam/Realign
+Inspect and Repair/Replace Reed
+Realign Harness
+Adjust Timing Mechanism
+Cool Motor/Check Ventilation
+Check Electrical Connections/Reset
+Clear Jam/Lubricate Parts
+Remove Knot/Clean Thread
+Vacuum Lint Buildup
+Check Motor and Pulleys
+Adjust Selvedge Setting
+Check Warp Tension/Beam Lock
+Adjust Weaving Parameters
+Check Beam Motor/Locking System
+Inspect and Replace Cam
+Adjust Drop Wire/Replace Spring
+Replace Latch Needle/Adjust Position
+Inspect Fabric Path/Remove Snag
+Check Motor Speed Encoder
+Lubricate Joints/Check Bearings
+Check Oil Level/Inspect Seals
+Adjust Pump Pressure/Check Filter
+Reset PLC/Check Program
+Clean Sensor/Replace if Damaged

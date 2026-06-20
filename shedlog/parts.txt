@@ -1,0 +1,19 @@
+Bobbin
+Needle Set
+Thread
+Spring
+Reed
+Harness
+Shuttle
+Motor
+Belt
+Pulley
+Cam
+Drop Wire
+Latch Needle
+Oil Filter
+Sensor
+Electrical Component
+Hydraulic Seal
+Bearing
+Fastener

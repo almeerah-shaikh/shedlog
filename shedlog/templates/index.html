@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHED-01 Loom Fault Logger - Artistic Milliners</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="light-mode">
+    <!-- Navbar / Top Bar -->
+    <header class="top-bar">
+        <div class="header-left">
+            <div class="logo-container">
+                <!-- Fallback decorative logo representing Artistic Milliners (AM) weave pattern -->
+                <div class="brand-logo">AM</div>
+            </div>
+            <div class="header-titles">
+                <h1>ARTISTIC MILLINERS</h1>
+                <h2>SHED-01 Weaving Machine Log</h2>
+            </div>
+        </div>
+        
+        <div class="header-right">
+            <!-- Tabs -->
+            <nav class="tab-navigation">
+                <button class="tab-btn active" data-tab="log-tab">
+                    <i data-lucide="edit-3"></i> Log Entry
+                </button>
+                <button class="tab-btn" data-tab="analytics-tab">
+                    <i data-lucide="bar-chart-2"></i> Analytics Dashboard
+                </button>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle-btn" class="icon-btn" title="Toggle Theme">
+                    <i data-lucide="moon"></i>
+                </button>
+                <button id="admin-panel-btn" class="primary-btn outline">
+                    <i data-lucide="shield-check"></i> Admin Panel
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="main-container">
+        
+        <!-- Tab 1: Log Workspace -->
+        <section id="log-tab" class="tab-content active">
+            <div class="grid-layout">
+                
+                <!-- Left Column: Form Card -->
+                <div class="card form-card">
+                    <div class="card-header">
+                        <i data-lucide="clipboard-list" class="header-icon"></i>
+                        <h3>Record Loom Event</h3>
+                    </div>
+                    
+                    <form id="log-form" novalidate>
+                        <div class="form-grid">
+                            
+                            <!-- Machine Name (Searchable Combobox) -->
+                            <div class="form-group autocomplete-group" id="group-machine">
+                                <label for="input-machine">Machine Name <span class="required">*</span></label>
+                                <div class="autocomplete-wrapper">
+                                    <input type="text" id="input-machine" class="form-control" placeholder="Search or select loom..." required autocomplete="off">
+                                    <button type="button" class="dropdown-trigger"><i data-lucide="chevron-down"></i></button>
+                                    <div class="autocomplete-dropdown hidden"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Machine Status -->
+                            <div class="form-group">
+                                <label for="input-status">Machine Status <span class="required">*</span></label>
+                                <select id="input-status" class="form-control" required>
+                                    <option value="Running" selected>Running</option>
+                                    <option value="Stop">Stop</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Fault (Searchable Combobox) -->
+                            <div class="form-group autocomplete-group colspan-2" id="group-fault">
+                                <label for="input-fault">Fault / Problem <span class="required">*</span></label>
+                                <div class="autocomplete-wrapper">
+                                    <input type="text" id="input-fault" class="form-control" placeholder="Search or type weaving fault..." required autocomplete="off">
+                                    <button type="button" class="dropdown-trigger"><i data-lucide="chevron-down"></i></button>
+                                    <div class="autocomplete-dropdown hidden"></div>
+                                </div>
+                            </div>
+
+                            <!-- Remedy (Searchable Combobox) -->
+                            <div class="form-group autocomplete-group colspan-2" id="group-remedy">
+                                <label for="input-remedy">Remedy / Action Taken <span class="required">*</span></label>
+                                <div class="autocomplete-wrapper">
+                                    <input type="text" id="input-remedy" class="form-control" placeholder="Search or type remedy description..." required autocomplete="off">
+                                    <button type="button" class="dropdown-trigger"><i data-lucide="chevron-down"></i></button>
+                                    <div class="autocomplete-dropdown hidden"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Shift -->
+                            <div class="form-group">
+                                <label for="input-shift">Shift <span class="required">*</span></label>
+                                <select id="input-shift" class="form-control" required>
+                                    <option value="" disabled selected>Select Shift</option>
+                                    <option value="General">General</option>
+                                    <option value="A">Shift A</option>
+                                    <option value="B">Shift B</option>
+                                    <option value="C">Shift C</option>
+                                </select>
+                            </div>
+
+                            <!-- Employee Name (Searchable Combobox) -->
+                            <div class="form-group autocomplete-group" id="group-employee">
+                                <label for="input-employee">Operator / Employee Name <span class="required">*</span></label>
+                                <div class="autocomplete-wrapper">
+                                    <input type="text" id="input-employee" class="form-control" placeholder="Search or select staff..." required autocomplete="off">
+                                    <button type="button" class="dropdown-trigger"><i data-lucide="chevron-down"></i></button>
+                                    <div class="autocomplete-dropdown hidden"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Part Change (Searchable Combobox) -->
+                            <div class="form-group autocomplete-group" id="group-part">
+                                <label for="input-part">Part Change (If any)</label>
+                                <div class="autocomplete-wrapper">
+                                    <input type="text" id="input-part" class="form-control" placeholder="Search or type changed part..." autocomplete="off">
+                                    <button type="button" class="dropdown-trigger"><i data-lucide="chevron-down"></i></button>
+                                    <div class="autocomplete-dropdown hidden"></div>
+                                </div>
+                            </div>
+
+                            <!-- Remarks -->
+                            <div class="form-group colspan-2">
+                                <label for="input-remarks">Remarks / Observations</label>
+                                <input type="text" id="input-remarks" class="form-control" placeholder="Additional details, notes...">
+                            </div>
+
+                            <!-- Start Date and Time -->
+                            <div class="form-group datetime-group">
+                                <label for="input-start-date">Fault Start Date & Time <span class="required">*</span></label>
+                                <div class="datetime-inputs">
+                                    <input type="date" id="input-start-date" class="form-control" required>
+                                    <input type="time" id="input-start-time" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- End Date and Time -->
+                            <div class="form-group datetime-group">
+                                <label for="input-end-date">Fault End Date & Time <span class="required">*</span></label>
+                                <div class="datetime-inputs">
+                                    <input type="date" id="input-end-date" class="form-control" required>
+                                    <input type="time" id="input-end-time" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" id="clear-form-btn" class="secondary-btn">
+                                <i data-lucide="refresh-cw"></i> Clear Fields
+                            </button>
+                            <button type="submit" id="save-entry-btn" class="primary-btn">
+                                <i data-lucide="save"></i> Save Entry
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Today's Entries -->
+                <div class="card entries-card">
+                    <div class="card-header space-between">
+                        <div class="header-left-title">
+                            <i data-lucide="activity" class="header-icon pulse"></i>
+                            <h3>Today's Log Stream</h3>
+                        </div>
+                        <span id="entries-count-badge" class="badge">0 entries</span>
+                    </div>
+                    
+                    <!-- KPI summaries for today -->
+                    <div class="today-stats-strip">
+                        <div class="stat-bubble">
+                            <span class="label">Total Stop Downtime</span>
+                            <span class="value" id="today-total-downtime">0 mins</span>
+                        </div>
+                        <div class="stat-bubble">
+                            <span class="label">Loom Stop Count</span>
+                            <span class="value" id="today-stop-count">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Entries Container -->
+                    <div class="entries-stream" id="today-entries-container">
+                        <!-- Loaded dynamically via JavaScript -->
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Fetching today's logs...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Tab 2: Analytics Dashboard -->
+        <section id="analytics-tab" class="tab-content">
+            <!-- Analytics Filter Header -->
+            <div class="card filter-card">
+                <div class="filter-flex">
+                    <div class="filter-title">
+                        <i data-lucide="filter" class="filter-header-icon"></i>
+                        <div>
+                            <h4>Filter Machine Logs</h4>
+                            <p>Choose dates or quick years to analyze weaving faults & downtime trends</p>
+                        </div>
+                    </div>
+                    <div class="filter-controls">
+                        <!-- Quick Year Selector -->
+                        <div class="quick-years">
+                            <select id="quick-year-select" class="form-control small-input" style="width: 140px; cursor: pointer;">
+                                <option value="" selected>Select Year...</option>
+                                <option value="all">Current Year</option>
+                                <option value="2028">2028</option>
+                                <option value="2027">2027</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                                <option value="2019">2019</option>
+                                <option value="2018">2018</option>
+                                <option value="2017">2017</option>
+                                <option value="2016">2016</option>
+                            </select>
+                        </div>
+                        <!-- Custom Date Pickers -->
+                        <div class="date-pickers">
+                            <div class="date-input-wrap">
+                                <label>From</label>
+                                <input type="date" id="filter-start-date" class="form-control small-input">
+                            </div>
+                            <div class="date-input-wrap">
+                                <label>To</label>
+                                <input type="date" id="filter-end-date" class="form-control small-input">
+                            </div>
+                            <button id="apply-filter-btn" class="primary-btn small-btn">
+                                <i data-lucide="check"></i> Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Cards Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card card">
+                    <div class="kpi-icon-wrapper stop-color">
+                        <i data-lucide="alert-octagon"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Logged Faults</span>
+                        <h3 class="kpi-value" id="kpi-total-faults">0</h3>
+                    </div>
+                </div>
+                <div class="kpi-card card">
+                    <div class="kpi-icon-wrapper time-color">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total Downtime</span>
+                        <h3 class="kpi-value" id="kpi-total-downtime">0 <small>mins</small></h3>
+                    </div>
+                </div>
+                <div class="kpi-card card">
+                    <div class="kpi-icon-wrapper loom-color">
+                        <i data-lucide="settings"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Active Looms</span>
+                        <h3 class="kpi-value" id="kpi-active-looms">0</h3>
+                    </div>
+                </div>
+                <div class="kpi-card card">
+                    <div class="kpi-icon-wrapper primary-color">
+                        <i data-lucide="frown"></i>
+                    </div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">Top Fault Defect</span>
+                        <h3 class="kpi-value" id="kpi-top-fault">None</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphs Dashboard Grid -->
+            <div class="graphs-grid">
+                <!-- Chart 1: Fault Rate Trend Line Chart (Fault changes over time) -->
+                <div class="card graph-card colspan-2">
+                    <div class="card-header">
+                        <i data-lucide="trending-up" class="graph-icon"></i>
+                        <h3>Fault Percentage Rate Trend (Month-Over-Month)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-fault-trend"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Top Fault Frequency (Bar Chart) -->
+                <div class="card graph-card">
+                    <div class="card-header">
+                        <i data-lucide="bar-chart-3" class="graph-icon"></i>
+                        <h3>Top Weaving Fault Defect Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-fault-frequency"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Downtime per Machine (Vertical Bar Chart) -->
+                <div class="card graph-card">
+                    <div class="card-header">
+                        <i data-lucide="layout-grid" class="graph-icon"></i>
+                        <h3>Loom Machine Downtime (Minutes)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-machine-downtime"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Shift Distribution (Donut Chart) -->
+                <div class="card graph-card">
+                    <div class="card-header">
+                        <i data-lucide="pie-chart" class="graph-icon"></i>
+                        <h3>Weaving Shifts Fault Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-shift-distribution"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 5: Fault remedies exploration -->
+                <div class="card graph-card remedies-expl-card">
+                    <div class="card-header">
+                        <i data-lucide="wrench" class="graph-icon"></i>
+                        <h3>Applied Remedies lookup</h3>
+                    </div>
+                    <div class="remedies-lookup-body">
+                        <p class="section-hint">Select a fault below to see what remedies were applied most frequently:</p>
+                        <select id="remedies-fault-select" class="form-control">
+                            <option value="">-- Select logged fault --</option>
+                        </select>
+                        <div id="remedies-list-container" class="remedies-list-container">
+                            <p class="empty-state-text">No fault selected. Select one above to view remedies.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Admin Panel Modal -->
+    <div id="admin-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            
+            <!-- Auth step -->
+            <div id="admin-auth-panel" class="modal-content-panel">
+                <div class="modal-header">
+                    <h3><i data-lucide="lock"></i> Admin Authenticate</h3>
+                    <button class="close-modal-btn"><i data-lucide="x"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-desc">Access to list configurations (adding/removing Loom names, faults, remedies, parts or operators).</p>
+                    <div class="form-group">
+                        <label for="admin-pw-input">Enter Security Password</label>
+                        <input type="password" id="admin-pw-input" class="form-control" placeholder="••••••••" required>
+                    </div>
+                    <div id="auth-error-msg" class="error-msg-box hidden">Incorrect password. Please try again.</div>
+                </div>
+                <div class="modal-footer">
+                    <button class="secondary-btn close-modal-btn">Cancel</button>
+                    <button id="auth-submit-btn" class="primary-btn">Submit Password</button>
+                </div>
+            </div>
+
+            <!-- List configuration step (Visible after auth) -->
+            <div id="admin-config-panel" class="modal-content-panel hidden">
+                <div class="modal-header">
+                    <h3><i data-lucide="sliders"></i> List Configuration Panel</h3>
+                    <button class="close-modal-btn" id="logout-admin-btn"><i data-lucide="log-out" title="Logout"></i></button>
+                </div>
+                <div class="modal-body flex-row-layout">
+                    <!-- Config Sidebar -->
+                    <div class="config-tabs-sidebar">
+                        <button class="sidebar-tab-btn active" data-type="machines">Loom Machines</button>
+                        <button class="sidebar-tab-btn" data-type="faults">Weaving Faults</button>
+                        <button class="sidebar-tab-btn" data-type="remedies">Remedies / Actions</button>
+                        <button class="sidebar-tab-btn" data-type="employees">Operators / Staff</button>
+                        <button class="sidebar-tab-btn" data-type="parts">Spare Parts</button>
+                    </div>
+
+                    <!-- Config Body -->
+                    <div class="config-tabs-content">
+                        <h4 id="config-content-title">Configure Machines</h4>
+                        
+                        <!-- Add Item Form -->
+                        <div class="config-add-item-box">
+                            <input type="text" id="config-new-item-input" class="form-control" placeholder="Enter new item value...">
+                            <button id="config-add-item-btn" class="primary-btn">
+                                <i data-lucide="plus"></i> Add
+                            </button>
+                        </div>
+                        
+                        <!-- Config List -->
+                        <div class="config-items-list-wrap">
+                            <ul id="config-items-list" class="config-items-list">
+                                <!-- Loaded dynamically -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification System -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Custom Script -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

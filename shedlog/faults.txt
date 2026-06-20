@@ -1,0 +1,30 @@
+Thread Break
+Needle Bend/Break
+Bobbin Empty
+Tension High
+Tension Low
+Needle Thread Issue
+Shuttle Jam
+Reed Damage
+Harness Misalignment
+Timing Off
+Motor Overheat
+Electrical Fault
+Mechanical Jam
+Knot in Thread
+Lint Buildup
+Take-up Failure
+Selvedge Problem
+Warp Breakage
+Weaving Defect
+Beam Rotation Issue
+Cam Wear
+Drop Wire Malfunction
+Latch Needle Issue
+Fabric Snag
+Speed Inconsistency
+Noise/Vibration
+Oil Leak
+Hydraulic Pressure Low
+PLC Error
+Sensor Malfunction
